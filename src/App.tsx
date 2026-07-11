@@ -86,13 +86,6 @@ function App() {
     resetPricing();
   };
 
-  // 保存到历史记录
-  const handleSaveToHistory = () => {
-    if (result) {
-      addRecord(images, itemInfo, result);
-    }
-  };
-
   // 加载历史记录
   const handleLoadHistory = (record: HistoryRecord) => {
     setItemInfo(record.itemInfo);
@@ -104,9 +97,9 @@ function App() {
   // 当到达结果页时，自动保存到历史记录
   useEffect(() => {
     if (currentStep === 'result' && result) {
-      handleSaveToHistory();
+      addRecord(images, itemInfo, result);
     }
-  }, [currentStep, result]);
+  }, [addRecord, currentStep, images, itemInfo, result]);
 
   const currentStepIndex = steps.findIndex(s => s.id === currentStep);
 

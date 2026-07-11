@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import type { ItemInfo, PriceResult, UploadedImage } from '@/types';
 
 // 模拟AI分析图片
-const analyzeImages = async (_images: UploadedImage[]): Promise<{
+const analyzeImages = async (images: UploadedImage[]): Promise<{
   brand: string;
   model: string;
   category: string;
@@ -16,7 +16,7 @@ const analyzeImages = async (_images: UploadedImage[]): Promise<{
     brand: '',
     model: '',
     category: 'other',
-    condition: 7,
+    condition: images.length > 0 ? 7 : 6,
   };
 };
 
@@ -72,8 +72,11 @@ const getMarketTrend = (category: string): 'rising' | 'stable' | 'falling' => {
 };
 
 // 生成近期成交数据
-const generateRecentDeals = (basePrice: number, _category: string) => {
-  const platforms = ['闲鱼', '转转', '京东二手', '淘宝二手'];
+const generateRecentDeals = (basePrice: number, category: string) => {
+  const platforms =
+    category === 'phone'
+      ? ['闲鱼', '转转', '京东二手', '爱回收']
+      : ['闲鱼', '转转', '京东二手', '淘宝二手'];
   const conditions = ['几乎全新', '成色很好', '正常使用痕迹', '有明显磨损'];
   const deals = [];
   

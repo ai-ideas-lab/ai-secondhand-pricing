@@ -111,14 +111,10 @@ export const CopyGenerator: React.FC<CopyGeneratorProps> = ({
   const [copied, setCopied] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedCopy, setGeneratedCopy] = useState<string>('');
+  const [generationRequest, setGenerationRequest] = useState(0);
 
-  const handleGenerate = async () => {
-    setIsGenerating(true);
-    // 模拟生成延迟
-    await new Promise(resolve => setTimeout(resolve, 800));
-    const copy = generateCopy(activePlatform, itemInfo, priceResult);
-    setGeneratedCopy(copy);
-    setIsGenerating(false);
+  const handleGenerate = () => {
+    setGenerationRequest(request => request + 1);
   };
 
   const handleCopy = async () => {
@@ -133,17 +129,17 @@ export const CopyGenerator: React.FC<CopyGeneratorProps> = ({
     }
   };
 
-  // 首次加载时自动生成
+  // 首次加载、平台切换或手动刷新时生成
   React.useEffect(() => {
-    if (!generatedCopy) {
-      handleGenerate();
-    }
-  }, []);
+    setIsGenerating(true);
 
-  // 平台切换时重新生成
-  React.useEffect(() => {
-    handleGenerate();
-  }, [activePlatform]);
+    const timeout = window.setTimeout(() => {
+      setGeneratedCopy(generateCopy(activePlatform, itemInfo, priceResult));
+      setIsGenerating(false);
+    }, 800);
+
+    return () => window.clearTimeout(timeout);
+  }, [activePlatform, generationRequest, itemInfo, priceResult]);
 
   const PlatformIcon = platformConfig[activePlatform].icon;
 
