@@ -4,7 +4,7 @@
 
 - GitHub: `ai-ideas-lab/ai-secondhand-pricing`
 - Category: Vite/React web app
-- Production domain: not confirmed in current inventory
+- Production domain: `https://ai-secondhand-pricing.vercel.app`
 
 ## Actions Taken
 
@@ -14,15 +14,17 @@
 - Added `test` script as a TypeScript build-mode smoke check.
 - Tuned ESLint rules for the current component-library export pattern.
 - Used simulated image/category inputs in pricing helpers so lint stays meaningful.
+- Fixed stale React Hook dependencies and duplicate copy-generation effects.
+- Replaced the Vite template README with product-specific operating notes.
+- Linked and deployed the dedicated Vercel project `ai-secondhand-pricing`.
 
 ## Validation
 
 - `npm run test`: passed
-- `npm run lint`: passed with 3 existing React Hook dependency warnings
+- `npm run lint`: passed with no warnings
 - `npm run build`: passed with Browserslist data freshness warning
 
 ## Follow-Up
 
-- Replace the default Vite README with product-specific operating notes.
-- Confirm production domain and API contract before public launch.
-- Review the remaining Hook dependency warnings before feature work in `App.tsx` or `CopyGenerator.tsx`.
+- Grant the Vercel GitHub App access to `ai-ideas-lab` if automatic Git-push deployments are required.
+- Define and implement the production API contract before replacing the current simulated pricing logic.
